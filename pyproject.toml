@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     { name = "Natchlazen", email = "gempro760@gmail.com" }
 ]
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 dependencies = [
     "dj-database-url>=3.1.2",
     "django>=6.1",
