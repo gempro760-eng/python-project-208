@@ -3,14 +3,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    DetailView,
-    ListView,
-    UpdateView,
-)
+from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
+from django_filters.views import FilterView
 
+from tasks.filters import TaskFilter
 from tasks.forms import TaskForm
 from tasks.models import Task
 
@@ -23,8 +19,9 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
         return redirect("login")
 
 
-class TaskListView(CustomLoginRequiredMixin, ListView):
+class TaskListView(CustomLoginRequiredMixin, FilterView):
     model = Task
+    filterset_class = TaskFilter
     template_name = "tasks/tasks_list.html"
     context_object_name = "tasks"
 
@@ -56,7 +53,10 @@ class TaskUpdateView(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
 
 class TaskDeleteView(
-    CustomLoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView
+    CustomLoginRequiredMixin,
+    UserPassesTestMixin,
+    SuccessMessageMixin,
+    DeleteView,
 ):
     model = Task
     template_name = "tasks/delete.html"
