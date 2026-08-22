@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 bg-white p-4 border rounded shadow-sm">
+        <h1 class="mb-4">Crear etiqueta</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type="submit" class="btn btn-primary w-100">Crear</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

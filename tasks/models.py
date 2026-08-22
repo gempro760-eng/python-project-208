@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from labels.models import Label
 from statuses.models import Status
 
 
@@ -13,12 +14,14 @@ class Task(models.Model):
         related_name="tasks",
         verbose_name="Estado",
     )
+
     author = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
         related_name="created_tasks",
         verbose_name="Autor",
     )
+
     executor = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
@@ -27,6 +30,14 @@ class Task(models.Model):
         related_name="assigned_tasks",
         verbose_name="Ejecutor",
     )
+
+    labels = models.ManyToManyField(
+        Label,
+        blank=True,
+        related_name="tasks",
+        verbose_name="Etiquetas",
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Fecha de creación"
     )
