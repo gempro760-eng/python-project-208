@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 load_dotenv()
 
@@ -144,3 +146,27 @@ MAILERS = {
 FIXTURE_DIRS = [
     BASE_DIR / 'fixtures',
 ]
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+SENTRY_DSN = os.getenv('SENTRY_DSN') or os.getenv('BUGSINK_DSN')
+
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        environment=os.getenv('ENVIRONMENT', 'production'),
+        traces_sample_rate=1.0,
+        send_default_pii=True,
+    )
+SENTRY_DSN = os.getenv('SENTRY_DSN')
+
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        environment=os.getenv('ENVIRONMENT', 'production'),
+        traces_sample_rate=1.0,
+        send_default_pii=True,
+    )

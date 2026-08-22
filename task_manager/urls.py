@@ -21,6 +21,11 @@ from django.urls import include, path
 from task_manager import views
 from users.views import CustomLoginView, CustomLogoutView
 
+
+def trigger_error(request):
+    return 1 / 0
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.index, name="index"),
@@ -30,4 +35,5 @@ urlpatterns = [
     path("labels/", include("labels.urls")),
     path("login/", CustomLoginView.as_view(), name="login"),
     path("logout/", CustomLogoutView.as_view(), name="logout"),
+    path("sentry-debug/", trigger_error),
 ]
