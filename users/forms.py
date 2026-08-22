@@ -22,7 +22,7 @@ class UserUpdateForm(UserChangeForm):
         widget=forms.PasswordInput,
     )
     password2 = forms.CharField(
-        label="Confirmar contraseña",
+        label="Contraseña (confirmación)",
         required=False,
         widget=forms.PasswordInput,
     )
