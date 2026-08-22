@@ -4,7 +4,7 @@ from django.urls import reverse
 
 
 class UserCRUDTestCase(TestCase):
-    fixtures = ('users.json',)
+    fixtures = ("users.json",)
 
     def setUp(self):
         self.user1 = User.objects.get(pk=1)
