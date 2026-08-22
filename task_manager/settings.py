@@ -160,9 +160,10 @@ if SENTRY_DSN:
         traces_sample_rate=1.0,
         send_default_pii=True,
     )
-SENTRY_DSN = os.getenv('SENTRY_DSN')
 
-if SENTRY_DSN:
+SENTRY_DSN = os.getenv('SENTRY_DSN', '').strip().strip('"').strip("'")
+
+if SENTRY_DSN and SENTRY_DSN.startswith('http'):
     sentry_sdk.init(
         dsn=SENTRY_DSN,
         integrations=[DjangoIntegration()],
@@ -170,3 +171,4 @@ if SENTRY_DSN:
         traces_sample_rate=1.0,
         send_default_pii=True,
     )
+    
