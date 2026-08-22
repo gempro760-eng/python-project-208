@@ -4,3 +4,7 @@ __pycache__/
 .env
 db.sqlite3
 .ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/

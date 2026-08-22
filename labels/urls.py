@@ -3,6 +3,7 @@ from django.urls import path
 from labels import views
 
 urlpatterns = [
+    path("", views.LabelListView.as_view(), name="labels"),
     path("", views.LabelListView.as_view(), name="labels_list"),
     path("create/", views.LabelCreateView.as_view(), name="label_create"),
     path(
