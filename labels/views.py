@@ -50,7 +50,7 @@ class LabelDeleteView(CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView)
         if self.object.tasks.exists():
             messages.error(
                 request,
-                "No es posible eliminar la etiqueta porque está en uso",
+                "No se puede eliminar la etiqueta porque está en uso",
             )
             return redirect("labels_list")
         return super().post(request, *args, **kwargs)
