@@ -1,0 +1,51 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: task_manager
+      POSTGRES_USER: task_manager
+      POSTGRES_PASSWORD: task_manager
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U task_manager -d task_manager"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    working_dir: /project
+    volumes:
+      - .:/project
+    environment:
+      DATABASE_URL: postgres://task_manager:task_manager@db:5432/task_manager
+      DJANGO_SETTINGS_MODULE: task_manager.settings
+    depends_on:
+      db:
+        condition: service_healthy
+    command: bash -c "uv run python manage.py runserver 0.0.0.0:8000"
+
+  webserver:
+    build: .
+    working_dir: /project
+    volumes:
+      - .:/project
+    environment:
+      DATABASE_URL: postgres://task_manager:task_manager@db:5432/task_manager
+      DJANGO_SETTINGS_MODULE: task_manager.settings
+    depends_on:
+      db:
+        condition: service_healthy
+    command: bash -c "uv run gunicorn task_manager.wsgi --bind 0.0.0.0:8000"
+
+  test:
+    build: .
+    working_dir: /project
+    volumes:
+      - .:/project
+    environment:
+      DATABASE_URL: postgres://task_manager:task_manager@db:5432/task_manager
+      DJANGO_SETTINGS_MODULE: task_manager.settings
+    depends_on:
+      db:
+        condition: service_healthy
+    command: bash -c "uv run pytest"
