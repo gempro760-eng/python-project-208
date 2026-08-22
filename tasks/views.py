@@ -70,5 +70,5 @@ class TaskDeleteView(
     def handle_no_permission(self):
         if not self.request.user.is_authenticated:
             return super().handle_no_permission()
-        messages.error(self.request, "Solo el autor de la tarea puede eliminarla")
+        messages.error(self.request, "Solo el autor puede eliminar la tarea")
         return redirect("tasks_list")
