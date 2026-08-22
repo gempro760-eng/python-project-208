@@ -1,0 +1,18 @@
+[
+  {
+    "model": "statuses.status",
+    "pk": 1,
+    "fields": {
+      "name": "Nuevo",
+      "created_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "statuses.status",
+    "pk": 2,
+    "fields": {
+      "name": "En progreso",
+      "created_at": "2026-01-01T00:00:00Z"
+    }
+  }
+]

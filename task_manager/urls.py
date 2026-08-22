@@ -26,6 +26,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("users/", include("users.urls")),
     path("statuses/", include("statuses.urls")),
+    path("tasks/", include("tasks.urls")),
     path("login/", CustomLoginView.as_view(), name="login"),
     path("logout/", CustomLogoutView.as_view(), name="logout"),
 ]

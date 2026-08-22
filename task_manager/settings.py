@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'users',
     'statuses',
+    'tasks',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +138,7 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+FIXTURE_DIRS = [
+    BASE_DIR / 'fixtures',
+]

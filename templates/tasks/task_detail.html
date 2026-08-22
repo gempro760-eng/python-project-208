@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card shadow-sm border p-4 bg-white">
+    <h1 class="card-title mb-4">{{ task.name }}</h1>
+    <p class="fs-5 text-muted">{{ task.description|default:"Sin descripción" }}</p>
+    <hr>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <p><strong>Autor:</strong> {{ task.author.get_full_name|default:task.author.username }}</p>
+            <p><strong>Ejecutor:</strong> {{ task.executor.get_full_name|default:task.executor.username|default:"No asignado" }}</p>
+        </div>
+        <div class="col-md-6">
+            <p><strong>Estado:</strong> {{ task.status.name }}</p>
+            <p><strong>Fecha de creación:</strong> {{ task.created_at|date:"d.m.Y H:i" }}</p>
+        </div>
+    </div>
+    <div class="mt-4">
+        <a href="{% url 'task_update' task.id %}" class="btn btn-outline-primary">Editar</a>
+        <a href="{% url 'task_delete' task.id %}" class="btn btn-outline-danger ms-2">Eliminar</a>
+        <a href="{% url 'tasks_list' %}" class="btn btn-secondary ms-2">Volver</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+[
+  {
+    "model": "tasks.task",
+    "pk": 1,
+    "fields": {
+      "name": "Tarea Inicial",
+      "description": "Descripción de prueba",
+      "status": 1,
+      "author": 1,
+      "executor": 2,
+      "created_at": "2026-01-01T00:00:00Z"
+    }
+  }
+]
