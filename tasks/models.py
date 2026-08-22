@@ -6,7 +6,14 @@ from statuses.models import Status
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=150, verbose_name="Nombre")
+    name = models.CharField(
+        max_length=150,
+        unique=True,
+        verbose_name="Nombre",
+        error_messages={
+            "unique": "Una tarea con este nombre ya existe.",
+        },
+    )
     description = models.TextField(blank=True, verbose_name="Descripción")
     status = models.ForeignKey(
         Status,

@@ -52,6 +52,6 @@ class StatusDeleteView(CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView
         except ProtectedError:
             messages.error(
                 request,
-                "No es posible eliminar el estado porque está en uso",
+                "No se puede eliminar el estado porque está en uso",
             )
             return redirect("statuses_list")
