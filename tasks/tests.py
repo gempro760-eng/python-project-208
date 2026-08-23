@@ -68,6 +68,27 @@ class TaskCRUDTestCase(TestCase):
         self.assertContains(response, self.task1.name)
         self.assertNotContains(response, self.task2.name)
 
+    def test_task_filters_can_be_combined(self):
+        self.client.login(username="john_doe", password="password123")
+        combined_task = Task.objects.create(
+            name="Tarea con filtros combinados",
+            status=self.status1,
+            author=self.user1,
+            executor=self.user1,
+        )
+        combined_task.labels.add(self.label1)
+        response = self.client.get(
+            reverse("tasks_list"),
+            {
+                "status": self.status1.pk,
+                "executor": self.user1.pk,
+                "label": self.label1.pk,
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, combined_task.name)
+        self.assertNotContains(response, self.task2.name)
+
     def test_task_filter_self_tasks(self):
         self.client.login(username="john_doe", password="password123")
         response = self.client.get(reverse("tasks_list"), {"self_tasks": "on"})
