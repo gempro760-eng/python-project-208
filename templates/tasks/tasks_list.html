@@ -58,9 +58,7 @@
             <td>{{ task.created_at|date:"d.m.Y H:i" }}</td>
             <td>
                 <a href="{% url 'task_update' task.id %}">Editar</a>
-                {% if task.author == user %}
                 <a href="{% url 'task_delete' task.id %}" class="text-danger ms-2">Eliminar</a>
-                {% endif %}
             </td>
         </tr>
         {% empty %}

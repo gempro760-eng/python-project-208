@@ -125,14 +125,6 @@ class TaskCRUDTestCase(TestCase):
         self.assertRedirects(response, reverse("tasks_list"))
         self.assertTrue(Task.objects.filter(pk=self.task1.pk).exists())
 
-    def test_task_delete_link_hidden_for_non_author(self):
-        self.client.login(username="jane_doe", password="password456")
-        response = self.client.get(reverse("tasks_list"))
-        self.assertNotContains(
-            response,
-            reverse("task_delete", kwargs={"pk": self.task1.pk}),
-        )
-
     def test_task_delete_by_author(self):
         self.client.login(username="john_doe", password="password123")
         response = self.client.post(
