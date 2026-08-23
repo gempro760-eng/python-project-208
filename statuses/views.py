@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import ProtectedError
 from django.shortcuts import redirect
@@ -8,14 +7,7 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from statuses.forms import StatusForm
 from statuses.models import Status
-
-
-class CustomLoginRequiredMixin(LoginRequiredMixin):
-    def handle_no_permission(self):
-        messages.error(
-            self.request, "No tienes autorización. Por favor, inicia sesión."
-        )
-        return redirect("login")
+from task_manager.mixins import CustomLoginRequiredMixin
 
 
 class StatusListView(CustomLoginRequiredMixin, ListView):

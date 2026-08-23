@@ -89,6 +89,17 @@ class TaskCRUDTestCase(TestCase):
         self.assertContains(response, combined_task.name)
         self.assertNotContains(response, self.task2.name)
 
+    def test_task_filter_shows_empty_state_without_matches(self):
+        self.client.login(username="john_doe", password="password123")
+        response = self.client.get(
+            reverse("tasks_list"),
+            {"status": Status.objects.create(name="Sin tareas").pk},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No hay tareas que coincidan con los filtros.")
+        self.assertNotContains(response, self.task1.name)
+        self.assertNotContains(response, self.task2.name)
+
     def test_task_filter_self_tasks(self):
         self.client.login(username="john_doe", password="password123")
         response = self.client.get(reverse("tasks_list"), {"self_tasks": "on"})

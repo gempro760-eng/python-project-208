@@ -1,22 +1,15 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
+from task_manager.mixins import CustomLoginRequiredMixin
 from tasks.filters import TaskFilter
 from tasks.forms import TaskForm
 from tasks.models import Task
-
-
-class CustomLoginRequiredMixin(LoginRequiredMixin):
-    def handle_no_permission(self):
-        messages.error(
-            self.request, "No tienes autorización. Por favor, inicia sesión."
-        )
-        return redirect("login")
 
 
 class TaskListView(CustomLoginRequiredMixin, FilterView):

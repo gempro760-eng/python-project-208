@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -7,14 +6,7 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from labels.forms import LabelForm
 from labels.models import Label
-
-
-class CustomLoginRequiredMixin(LoginRequiredMixin):
-    def handle_no_permission(self):
-        messages.error(
-            self.request, "No tienes autorización. Por favor, inicia sesión."
-        )
-        return redirect("login")
+from task_manager.mixins import CustomLoginRequiredMixin
 
 
 class LabelListView(CustomLoginRequiredMixin, ListView):
