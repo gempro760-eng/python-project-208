@@ -1,7 +1,7 @@
 [project]
 name = "hexlet-code"
 version = "0.1.0"
-description = "Add your description here"
+description = "Aplicación web para gestionar tareas, estados y etiquetas"
 readme = "README.md"
 authors = [
     { name = "Natchlazen", email = "gempro760@gmail.com" }

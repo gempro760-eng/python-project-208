@@ -100,3 +100,12 @@ Configura el servicio con:
 - Start command: `make render-start`
 
 Define las variables de entorno de produccion antes de desplegar. El script de build instala dependencias, recopila estaticos y ejecuta migraciones.
+
+Los mismos pasos pueden comprobarse localmente con:
+
+```bash
+make build
+make render-start
+```
+
+El comando de inicio utiliza `PORT` cuando Render lo proporciona y usa el puerto `8000` como valor predeterminado.
