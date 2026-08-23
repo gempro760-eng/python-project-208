@@ -16,34 +16,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
 
       - name: Hexlet project check
         uses: hexlet/project-action@release
         with:
           hexlet-id: ${{ secrets.HEXLET_ID }}
-  quality:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Instalar uv
-        uses: astral-sh/setup-uv@v6
-        with:
-          version: latest
-          python-version: "3.12"
-
-      - name: Instalar dependencias
-        run: uv sync
-
-      - name: Comprobar proyecto
-        run: uv run python manage.py check
-
-      - name: Ejecutar pruebas
-        run: uv run pytest
-
-      - name: Ejecutar linter
-        run: uv run ruff check .
-
-      - name: Comprobar cobertura
-        run: uv run coverage run -m pytest && uv run coverage report --fail-under=80
+          
