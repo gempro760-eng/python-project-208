@@ -12,7 +12,6 @@ dependencies = [
     "django>=6.1",
     "django-bootstrap5>=26.2",
     "django-filter>=26.1",
-    "django-filter>=26.1",
     "gunicorn>=26.1.0",
     "psycopg[binary]>=3.2.0",
     "python-dotenv>=1.2.3",

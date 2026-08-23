@@ -64,6 +64,21 @@ La aplicacion usa SQLite por defecto en desarrollo y PostgreSQL cuando se define
 - Eliminacion de tareas limitada a su autor.
 - Filtros por `status`, `executor`, `label` y `self_tasks`.
 
+## Uso
+
+1. Registra un usuario en `/users/create/` e inicia sesión en `/login/`.
+2. Crea estados y etiquetas desde `/statuses/` y `/labels/`.
+3. Crea tareas desde `/tasks/`, asignando estado, ejecutor y etiquetas.
+4. Consulta el detalle de una tarea desde su nombre en el listado.
+5. Combina filtros directamente en la URL, por ejemplo:
+
+```text
+/tasks/?status=1&executor=2&label=3&self_tasks=on
+```
+
+Solo los usuarios autenticados pueden gestionar estados, etiquetas y tareas.
+El autor de una tarea es asignado automáticamente y es el único que puede eliminarla.
+
 ## Calidad
 
 ```bash
