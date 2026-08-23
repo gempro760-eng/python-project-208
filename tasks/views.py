@@ -25,11 +25,25 @@ class TaskListView(CustomLoginRequiredMixin, FilterView):
     template_name = "tasks/tasks_list.html"
     context_object_name = "tasks"
 
+    def get_queryset(self):
+        return super().get_queryset().select_related(
+            "author",
+            "status",
+            "executor",
+        )
+
 
 class TaskDetailView(CustomLoginRequiredMixin, DetailView):
     model = Task
     template_name = "tasks/task_detail.html"
     context_object_name = "task"
+
+    def get_queryset(self):
+        return super().get_queryset().select_related(
+            "author",
+            "status",
+            "executor",
+        ).prefetch_related("labels")
 
 
 class TaskCreateView(CustomLoginRequiredMixin, SuccessMessageMixin, CreateView):
