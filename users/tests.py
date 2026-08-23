@@ -78,6 +78,14 @@ class UserCRUDTestCase(TestCase):
         self.assertRedirects(response, reverse("users_list"))
         self.assertFalse(User.objects.filter(pk=self.user1.pk).exists())
 
+    def test_user_delete_by_other_user_forbidden(self):
+        self.client.login(username="jane_doe", password="password456")
+        response = self.client.post(
+            reverse("user_delete", kwargs={"pk": self.user1.pk})
+        )
+        self.assertRedirects(response, reverse("users_list"))
+        self.assertTrue(User.objects.filter(pk=self.user1.pk).exists())
+
     def test_user_with_tasks_cannot_be_deleted(self):
         status = Status.objects.create(name="Nuevo")
         Task.objects.create(
