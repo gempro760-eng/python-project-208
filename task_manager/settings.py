@@ -27,17 +27,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*w*#0$!-w5gcn&q6x7lq0ev#v768-aaqta%-$n$(@mq4+4*loy'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-only-insecure-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DJANGO_DEBUG", "True").lower() == "true"
 
-ALLOWED_HOSTS = [
-    'webserver',
-    'localhost',
-    '127.0.0.1',
-    '.onrender.com',
-]
+ALLOWED_HOSTS = os.getenv(
+    "DJANGO_ALLOWED_HOSTS",
+    "webserver,localhost,127.0.0.1,.onrender.com",
+).split(",")
 
 # Application definition
 
@@ -144,21 +142,8 @@ FIXTURE_DIRS = [
     BASE_DIR / 'fixtures',
 ]
 
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-
-SENTRY_DSN = os.getenv('SENTRY_DSN') or os.getenv('BUGSINK_DSN')
-
-if SENTRY_DSN:
-    sentry_sdk.init(
-        dsn=SENTRY_DSN,
-        integrations=[DjangoIntegration()],
-        environment=os.getenv('ENVIRONMENT', 'production'),
-        traces_sample_rate=1.0,
-        send_default_pii=True,
-    )
-
-SENTRY_DSN = os.getenv('SENTRY_DSN', '').strip().strip('"').strip("'")
+SENTRY_DSN = (os.getenv('SENTRY_DSN') or os.getenv('BUGSINK_DSN', '')).strip()
+SENTRY_DSN = SENTRY_DSN.strip('"').strip("'")
 
 if SENTRY_DSN and SENTRY_DSN.startswith('http'):
     sentry_sdk.init(

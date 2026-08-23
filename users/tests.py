@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
+from statuses.models import Status
+from tasks.models import Task
+
 
 class UserCRUDTestCase(TestCase):
     fixtures = ("users.json",)
@@ -74,3 +77,19 @@ class UserCRUDTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("users_list"))
         self.assertFalse(User.objects.filter(pk=self.user1.pk).exists())
+
+    def test_user_with_tasks_cannot_be_deleted(self):
+        status = Status.objects.create(name="Nuevo")
+        Task.objects.create(
+            name="Tarea vinculada",
+            status=status,
+            author=self.user1,
+        )
+        self.client.login(username="john_doe", password="password123")
+
+        response = self.client.post(
+            reverse("user_delete", kwargs={"pk": self.user1.pk}),
+        )
+
+        self.assertRedirects(response, reverse("users_list"))
+        self.assertTrue(User.objects.filter(pk=self.user1.pk).exists())

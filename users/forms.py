@@ -40,9 +40,8 @@ class UserUpdateForm(UserChangeForm):
         cleaned_data = super().clean()
         password1 = cleaned_data.get("password1")
         password2 = cleaned_data.get("password2")
-        if password1 or password2:
-            if password1 != password2:
-                raise forms.ValidationError("Las contraseñas no coinciden.")
+        if (password1 or password2) and password1 != password2:
+            raise forms.ValidationError("Las contraseñas no coinciden.")
         return cleaned_data
 
     def save(self, commit=True):
