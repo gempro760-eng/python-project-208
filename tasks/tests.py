@@ -40,6 +40,35 @@ class TaskCRUDTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("login"))
 
+    def test_task_write_operations_require_authentication(self):
+        create_response = self.client.post(
+            reverse("task_create"),
+            {
+                "name": "Tarea anónima",
+                "description": "No debe crearse",
+                "status": self.status1.pk,
+            },
+        )
+        update_response = self.client.post(
+            reverse("task_update", kwargs={"pk": self.task1.pk}),
+            {
+                "name": "Tarea modificada sin sesión",
+                "description": self.task1.description,
+                "status": self.status1.pk,
+            },
+        )
+        delete_response = self.client.post(
+            reverse("task_delete", kwargs={"pk": self.task1.pk})
+        )
+
+        self.assertRedirects(create_response, reverse("login"))
+        self.assertRedirects(update_response, reverse("login"))
+        self.assertRedirects(delete_response, reverse("login"))
+        self.assertFalse(Task.objects.filter(name="Tarea anónima").exists())
+        self.task1.refresh_from_db()
+        self.assertEqual(self.task1.name, "Tarea Inicial")
+        self.assertTrue(Task.objects.filter(pk=self.task1.pk).exists())
+
     def test_task_list_authenticated(self):
         self.client.login(username="john_doe", password="password123")
         response = self.client.get(reverse("tasks_list"))
