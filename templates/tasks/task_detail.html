@@ -27,7 +27,9 @@
     </div>
     <div class="mt-4">
         <a href="{% url 'task_update' task.id %}" class="btn btn-outline-primary">Editar</a>
+        {% if task.author == user %}
         <a href="{% url 'task_delete' task.id %}" class="btn btn-outline-danger ms-2">Eliminar</a>
+        {% endif %}
         <a href="{% url 'tasks_list' %}" class="btn btn-secondary ms-2">Volver</a>
     </div>
 </div>
